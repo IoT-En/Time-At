@@ -1,4 +1,5 @@
 "use strict";
+import { chromium } from 'playwright';
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function (o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -51,7 +52,8 @@ async function runAutomation(opts) {
     if (records.length === 0) {
         return 'No WFH records found in selected date range';
     }
-    const browser = await test_1.chromium.launch({
+    
+    const browser = await chromium.launch({
         headless: true, // ✅ ต้องเป็น true
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
