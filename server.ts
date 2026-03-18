@@ -24,7 +24,7 @@ app.post('/run', async (req, res) => {
   }
 });
 
-
-app.listen(3000, () => {
-  console.log('UI running at http://localhost:3000/ui.html');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`UI running at http://localhost:${PORT}/ui.html`);
 });
