@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "postinstall": "npx playwright install --with-deps"
   },
   "keywords": [],
   "author": "",
