@@ -52,10 +52,12 @@ async function runAutomation(opts) {
     if (records.length === 0) {
         return 'No WFH records found in selected date range';
     }
-    
+
     const browser = await chromium.launch({
         headless: true, // ✅ ต้องเป็น true
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: ['--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage']
     });
     const page = await browser.newPage();
     try {
