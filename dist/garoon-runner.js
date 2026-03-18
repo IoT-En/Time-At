@@ -51,7 +51,7 @@ async function runAutomation(opts) {
     if (records.length === 0) {
         return 'No WFH records found in selected date range';
     }
-    const browser = await test_1.chromium.launch({ headless: false });
+    const browser = await test_1.chromium.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
     try {
         // ===== LOGIN =====
