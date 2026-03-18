@@ -1,18 +1,13 @@
+
+
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import path from 'path';
 import { runAutomation } from './garoon-runner';
 
 const app = express();
 app.use(bodyParser.json());
-
-// ✅ serve static จาก root project (สำคัญ!)
-app.use(express.static(path.join(__dirname, '..')));
-
-// ✅ route หลัก
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'ui.html'));
-});
+app.use(express.static(__dirname));
+app.use(express.static('.'));
 
 app.post('/run', async (req, res) => {
   try {
@@ -34,5 +29,5 @@ app.post('/run', async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`UI running at http://localhost:${PORT}/ui.html`);
 });

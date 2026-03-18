@@ -5,16 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const path_1 = __importDefault(require("path"));
 const garoon_runner_1 = require("./garoon-runner");
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
-// ✅ serve static จาก root project (สำคัญ!)
-app.use(express_1.default.static(path_1.default.join(__dirname, '..')));
-// ✅ route หลัก
-app.get('/', (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, '..', 'ui.html'));
-});
+app.use(express_1.default.static(__dirname));
+app.use(express_1.default.static('.'));
 app.post('/run', async (req, res) => {
     try {
         const { user, pass, ics, startDate, endDate } = req.body;
@@ -33,5 +28,5 @@ app.post('/run', async (req, res) => {
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`UI running at http://localhost:${PORT}/ui.html`);
 });
