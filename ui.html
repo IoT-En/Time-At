@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8" />
+  <title>Schedule Automation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: linear-gradient(135deg, #eef2f7, #f9fbfd);
+      margin: 0;
+      padding: 40px;
+    }
+
+    .card {
+      max-width: 720px;
+      margin: auto;
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .field {
+      flex: 1;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    input[type="date"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      font-size: 15px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background: #2563eb;
+      color: white;
+      transition: background .2s;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    pre {
+      margin-top: 24px;
+      padding: 16px;
+      background: #0f172a;
+      color: #e5e7eb;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-size: 13px;
+      max-height: 360px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Garoon WFH Automation</h2>
+
+  <form id="form">
+    Username:<br>
+    <input id="user"><br><br>
+
+    Password:<br>
+    <input id="pass" type="password"><br><br>
+
+    ICS File Path:<br>
+    <input id="ics" value="./data/schedule.ics"><br><br>
+
+    <label>Start Date</label>
+    <input type="date" id="startDate">
+
+<label>End Date</label>
+<input type="date" id="endDate">
+
+
+    <button type="submit">Run Automation</button>
+  </form>
+
+  <pre id="output"></pre>
+
+<script>
+document.getElementById("form").onsubmit = async e => {
+  e.preventDefault();
+
+  const res = await fetch("/run", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user: user.value,
+      pass: pass.value,
+      ics: ics.value,
+      startDate: startDate.value,
+      endDate: endDate.value
+    })
+  });
+
+  const text = await res.text();
+  output.textContent = text;
+};
+async function run(){
+  const file = document.getElementById('icsFile').files[0];
+  const start = document.getElementById('startDate').value;
+  const end = document.getElementById('endDate').value;
+
+  const fd = new FormData();
+  fd.append('ics', file);
+  fd.append('startDate', start);
+  fd.append('endDate', end);
+
+  await fetch('/run', { method:'POST', body:fd });
+  alert('Started');
+}
+</script>
+</body>
+</html>
